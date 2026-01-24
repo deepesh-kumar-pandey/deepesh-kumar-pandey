@@ -4,9 +4,6 @@
 
 ### Systems Engineer | C++ Developer | Building Production-Grade Infrastructure
 
-[![GitHub followers](https://img.shields.io/github/followers/deepesh-kumar-pandey?style=social)](https://github.com/deepesh-kumar-pandey?tab=followers)
-[![GitHub stars](https://img.shields.io/github/stars/deepesh-kumar-pandey?style=social)](https://github.com/deepesh-kumar-pandey?tab=repositories)
-[![Profile Views](https://komarev.com/ghpvc/?username=deepesh-kumar-pandey&color=blue)](https://github.com/deepesh-kumar-pandey)
 
 **Building robust systems that solve real-world problems** | **Focused on performance, reliability, and clean code**
 
@@ -74,9 +71,6 @@ if (limiter.is_request_allowed("user123")) {
 }
 ```
 
-[![Stars](https://img.shields.io/github/stars/deepesh-kumar-pandey/API-project?style=social)](https://github.com/deepesh-kumar-pandey/API-project)
-[![Language](https://img.shields.io/badge/C++-11%2F14-00599C?logo=cplusplus)](https://github.com/deepesh-kumar-pandey/API-project)
-
 ---
 
 ### 2️⃣ [DeepGuard - Health Monitoring Service](https://github.com/deepesh-kumar-pandey/Health-Monitoring-Service)
@@ -109,10 +103,6 @@ monitor.run_monitoring_cycle(5);  // Check every 5 seconds
 // - Disk usage > 90%
 // - Database connectivity failures
 ```
-
-[![Stars](https://img.shields.io/github/stars/deepesh-kumar-pandey/Health-Monitoring-Service?style=social)](https://github.com/deepesh-kumar-pandey/Health-Monitoring-Service)
-[![Language](https://img.shields.io/badge/C++-17-00599C?logo=cplusplus)](https://github.com/deepesh-kumar-pandey/Health-Monitoring-Service)
-
 ---
 
 ### 3️⃣ [Interactive To-Do List](https://github.com/deepesh-kumar-pandey/To_do_list)
@@ -129,7 +119,6 @@ monitor.run_monitoring_cycle(5);  // Check every 5 seconds
 
 **💼 Use Cases:** Personal productivity, task tracking, learning web development fundamentals
 
-[![Language](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript)](https://github.com/deepesh-kumar-pandey/To_do_list)
 
 ---
 
@@ -145,8 +134,6 @@ monitor.run_monitoring_cycle(5);  // Check every 5 seconds
 **🛠️ Tech Stack:** `Python` • `Tkinter/PyQt` (GUI Framework)
 
 **💼 Use Cases:** Desktop automation, user interfaces, rapid prototyping
-
-[![Language](https://img.shields.io/badge/Python-3.x-3776AB?logo=python)](https://github.com/deepesh-kumar-pandey/GUI)
 
 ---
 
@@ -396,9 +383,6 @@ I'm always interested in:
 <div align="center">
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/deepesh-kumar-pandey)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/deepesh-kumar-pandey)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:deepesh.pandey@example.com)
-[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/deepesh_pandey)
 
 </div>
 
@@ -436,8 +420,6 @@ I build projects that:
 ### 💻 Open for collaboration and always learning
 
 **Thanks for visiting!** 🚀
-
-![Profile Views](https://komarev.com/ghpvc/?username=deepesh-kumar-pandey&color=blueviolet&style=flat-square)
 
 ---
 
