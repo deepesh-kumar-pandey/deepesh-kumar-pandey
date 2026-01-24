@@ -7,7 +7,7 @@
 
 **Building robust systems that solve real-world problems** | **Focused on performance, reliability, and clean code**
 
-[View Projects](#-featured-projects) • [Tech Stack](#-tech-stack) • [Get in Touch](#-connect-with-me)
+[View Projects](#-featured-projects) • [Tech Stack](#-tech-stack) 
 
 </div>
 
