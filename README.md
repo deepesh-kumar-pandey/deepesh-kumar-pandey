@@ -1,90 +1,155 @@
 <div align="center">
 
-# 👋 Hi, I'm Deepesh Kumar Pandey
+# Deepesh Kumar Pandey
 
-### Systems Engineer | C++ & Go Developer | Building Production-Grade Infrastructure
+### Systems & Backend Engineer &nbsp;|&nbsp; Go · C++ · Infrastructure
 
+**Durable storage · Concurrent pipelines · LLM agent tooling**
 
-**Building robust systems that solve real-world problems** | **Focused on performance, reliability, and clean code**
+Computer Science undergraduate (2023–2027) focused on performance, reliability, and clean, testable code.
 
-[View Projects](#-featured-projects) • [Tech Stack](#-tech-stack)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/deepesh-kumar-pandey-013233288)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/deepesh-kumar-pandey)
+[![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=black)](https://leetcode.com/u/Deepesh_Kumar_Pandey)
+[![HackerRank](https://img.shields.io/badge/HackerRank-2EC866?style=for-the-badge&logo=hackerrank&logoColor=white)](https://hackerrank.com/profile/deepesh040505)
+
+[About](#about) · [Projects](#featured-projects) · [Skills](#skills) · [Competencies](#core-competencies) · [Code](#selected-code-patterns) · [Roadmap](#roadmap) · [Contact](#contact)
 
 </div>
 
 ---
 
-## 🚀 About Me
+## About
 
-I'm a **systems engineer** passionate about building **high-performance, production-grade infrastructure**. I started out deep in modern C++ — rate limiters, health monitors, thread-safe services — and have since picked up **Go**, which is now my primary language for backend and infrastructure work: durable storage engines, concurrent pipelines, and (most recently) an LLM agent harness.
+I build backend and infrastructure software with a focus on **correctness under failure**: crash recovery, thread safety, bounded resource use, and measurable performance. I started in modern C++ (rate limiters, health monitors, async task engines) and now work primarily in **Go** on storage engines, concurrent pipelines, and an LLM agent runtime.
 
-Across languages, the focus stays the same: **thread safety**, **crash resilience**, **cross-platform compatibility**, and **minimal resource footprint**.
+Across languages the priorities stay the same: **thread safety**, **crash resilience**, **cross-platform compatibility**, and a **minimal resource footprint**.
 
 ```go
-package main
-
-type Developer struct {
-    Name           string
-    Focus          string
-    Specializations []string
+type Engineer struct {
+    Name        string
+    Focus       string
+    Specialties []string
 }
 
-func Me() Developer {
-    return Developer{
+func Me() Engineer {
+    return Engineer{
         Name:  "Deepesh Kumar Pandey",
         Focus: "Systems Programming & Infrastructure",
-        Specializations: []string{
-            "Go & C++ Systems Development",
-            "Durable Storage & Caching Engines",
-            "LLM Agent Harnesses & Tooling",
-            "Concurrent Programming",
-            "DevOps Tooling",
+        Specialties: []string{
+            "Go & C++ systems development",
+            "Durable storage and caching engines",
+            "LLM agent runtimes, MCP and tooling",
+            "Concurrent programming",
+            "DevOps automation and observability",
         },
     }
 }
 ```
 
-### 💡 What I Do
+### What I Work On
 
-- 🔧 **Systems Programming** - Building low-level infrastructure in Go and C++11/14/17
-- 🗄️ **Durable Storage Engines** - Write-ahead logs, crash recovery, in-memory caching
-- 🤖 **Agent Tooling** - Harnesses that connect LLMs to tools and execution loops
-- 🐳 **DevOps Automation** - Dockerized applications, multi-platform deployment
-- 🔒 **Security-First Design** - Thread-safe, encrypted, production-ready code
-- 📊 **Monitoring & Observability** - Real-time system health tracking
-- ⚡ **Performance Optimization** - Efficient algorithms, minimal overhead
+| Area | Focus |
+|---|---|
+| **Systems programming** | Low-level infrastructure in Go and C++11/14/17 |
+| **Durable storage** | Write-ahead logs, fsync semantics, crash recovery, compaction, atomic writes |
+| **Agent infrastructure** | Orchestration loops, tool registries, MCP integration, session persistence |
+| **DevOps automation** | Dockerized services, multi-stage builds, CI checks, multi-platform deployment |
+| **Security-minded design** | Thread-safe code, encrypted audit logs, signed requests, validated inputs |
+| **Observability** | Health checks, metrics endpoints, real-time system monitoring and alerting |
+| **Performance** | Algorithmic efficiency, benchmarking, low-overhead hot paths |
 
 ---
 
-## 🎯 Featured Projects
+## Featured Projects
 
-### 1️⃣ [Durable Log Cache Engine](https://github.com/deepesh-kumar-pandey/durable-log-cache-engine) — Go
+### 1. [Agent Harness](https://github.com/deepesh-kumar-pandey/Agent-harness) &nbsp;·&nbsp; Go
 
-> **A production-grade, crash-resilient log ingestion and caching engine with zero data loss guarantees**
+> **A runtime for building and running tool-using AI agents: the model supplies the intelligence, the harness supplies the tools, state, and execution loop.**
 
-**✅ Status: Complete**
+**Status:** Active development. Core runtime, MCP integration, and session persistence are implemented.
 
-Ultra-low-latency log ingestion backed by a Write-Ahead Log (WAL), a concurrent worker pipeline, an LRU in-memory cache, and a token-bucket rate limiter.
+#### Architecture
 
-**🔑 Key Features:**
-- ✅ Binary-framed, fsync-backed WAL — data is durable before any acknowledgement
-- ✅ Crash recovery: replays the WAL on boot, restores payloads into the LRU cache, then compacts it
-- ✅ O(1) LRU cache index with hit-rate telemetry
-- ✅ Configurable worker pool with automatic panic recovery and self-healing replacement
-- ✅ Token-bucket rate limiter with configurable burst depth; excess load shed with `429`
-- ✅ HTTP API — `/submit`, `/lookup/{id}`, `/metrics`, `/health`
-- ✅ Multi-stage, minimal Alpine Docker image running as `nobody`
-- ✅ 20 tests across cache/pipeline packages, including race-detector coverage
+```text
+ User / CLI
+     │
+     ▼
+Orchestrator ──► runs the agent loop, feeds tool results back to the model
+     │
+     ▼
+   Agent ──────► tool access + conversation history
+     │
+     ▼
+Tool Registry ─► built-in tools (calculator, shell, filesystem)
+     │
+     └────────► MCP ToolAdapter ─► external MCP servers and their tools
+```
 
-**📈 Benchmarked Performance** (AMD Ryzen 5 5600H):
+#### Implemented
+
+| Capability | Details |
+|---|---|
+| **Orchestrator** | Agent loop that executes each tool call through the Agent and returns results to the model |
+| **Agent** | Resolves tools through the registry; maintains in-memory conversation history |
+| **Tool layer** | Common `Name() / Description() / Execute()` contract and a registry for registering and discovering tools |
+| **Built-in tools** | Calculator, Shell (validated `exec.LookPath` execution with captured output), Filesystem (read/write/list/search/delete) |
+| **MCP client** | Built on the official MCP SDK; identifies itself to servers by implementation name and version |
+| **MCP ToolAdapter** | Wraps each discovered MCP tool behind the harness tool interface so the Agent treats it like any other tool |
+| **MCP CLI** | `mcp list`, `mcp add <name> <command> [args...]`, `mcp remove <name>` with persisted config and duplicate-name validation |
+| **Sessions** | Active-session switching on create; file-backed store with atomic writes (temp file + rename); SQLite-backed store with transactions and foreign-key cascade deletes |
+| **Providers** | Ollama chat provider with request validation and an injectable HTTP client |
+| **Config** | JSON provider config with a `config.example.json` that contains no local credentials |
+| **Quality** | Unit and integration tests; GitHub Actions workflow for formatting, tests, and `go vet` |
+
+#### Usage
+
+```bash
+# Manage MCP servers from the CLI
+agent-harness mcp list
+agent-harness mcp add <name> <command> [args...]
+agent-harness mcp remove <name>
+```
+
+```go
+type Tool interface {
+    Name() string
+    Description() string
+    Execute(args map[string]any) (any, error)
+}
+```
+
+**Stack:** `Go` · `Ollama` · `MCP` · `SQLite (modernc.org/sqlite)` · `GitHub Actions`
+
+**Use cases:** local-LLM tool-calling agents, extensible agent runtimes, testable provider and tool abstractions
+
+---
+
+### 2. [Durable Log Cache Engine](https://github.com/deepesh-kumar-pandey/durable-log-cache-engine) &nbsp;·&nbsp; Go
+
+> **A crash-resilient log ingestion and caching engine with zero data loss guarantees**
+
+**Status:** Complete
+
+Low-latency log ingestion backed by a write-ahead log (WAL), a concurrent worker pipeline, an LRU in-memory cache, and a token-bucket rate limiter.
+
+**Key features**
+- Binary-framed, fsync-backed WAL: data is durable before any acknowledgement
+- Crash recovery: replays the WAL on boot, restores payloads into the LRU cache, then compacts the log
+- O(1) LRU cache index with hit-rate telemetry
+- Configurable worker pool with automatic panic recovery and self-healing replacement
+- Token-bucket rate limiter with configurable burst depth; excess load shed with `429`
+- HTTP API: `/submit`, `/lookup/{id}`, `/metrics`, `/health`
+- Multi-stage, minimal Alpine Docker image running as `nobody`
+- 20 tests across cache and pipeline packages, including race-detector coverage
+
+**Benchmarked performance** (AMD Ryzen 5 5600H)
+
 | Component | Operation | Throughput | Latency |
 |---|---|---|---|
-| LRU Cache | Get (Hit) | ~5.4M ops/sec | 183 ns |
-| WAL (Disk I/O) | Write + fsync | ~348K ops/sec | 2.8 µs |
-| Rate Limiter | Allow (Concurrent) | ~5.2M ops/sec | 189 ns |
-
-**🛠️ Tech Stack:** `Go` • `Docker` • `Alpine Linux`
-
-**💼 Use Cases:** durable event ingestion, crash-safe log pipelines, low-latency lookup caches
+| LRU Cache | Get (hit) | ~5.4M ops/sec | 183 ns |
+| WAL (disk I/O) | Write + fsync | ~348K ops/sec | 2.8 µs |
+| Rate Limiter | Allow (concurrent) | ~5.2M ops/sec | 189 ns |
 
 ```bash
 curl -X POST http://localhost:8080/submit \
@@ -93,35 +158,36 @@ curl -X POST http://localhost:8080/submit \
 # → 202 Accepted, WAL write in flight
 ```
 
+**Stack:** `Go` · `Docker` · `Alpine Linux`
+
+**Use cases:** durable event ingestion, crash-safe log pipelines, low-latency lookup caches
+
 ---
 
-### 2️⃣ [Automation Engine](https://github.com/deepesh-kumar-pandey/Automation-Engine) — C++26 / React
+### 3. [Automation Engine](https://github.com/deepesh-kumar-pandey/Automation-Engine) &nbsp;·&nbsp; C++ / React
 
-> **A high-performance, asynchronous task orchestration system that automates workflows across applications, shell environments, and infrastructure — driven entirely by JSON**
+> **An asynchronous task orchestration system that automates workflows across applications, shell environments, and infrastructure, driven entirely by JSON**
 
-**✅ Status: Core Complete** (backend, security worker, dashboard, and full run pipeline all working end-to-end)
+**Status:** Core complete (backend, security worker, dashboard, and run pipeline working end-to-end)
 
-Define "routines" as JSON-configured workflows made of polymorphic, non-blocking tasks — from shell automation to a live threat-detection worker that talks to a rate limiter over an HMAC-signed API.
+Routines are defined as JSON workflows made of polymorphic, non-blocking tasks, from shell automation to a live threat-detection worker that talks to a rate limiter over an HMAC-signed API.
 
-**🔑 Key Features:**
-- ✅ **Async Core** - non-blocking task execution via `std::async` / `std::future`
-- ✅ **Polymorphic Workers** - extend via an abstract `Task` base class for any capability
-- ✅ **Threat Analyzer** - a C++ TCP server that parses incoming requests for SQL injection and blocks bad IPs in real time
-- ✅ **Security Integration** - `BlockIPTask` calls a Rate Limiter service directly, requests signed with HMAC-SHA256
-- ✅ **Encrypted Auditing** - logs encrypted on disk with AES-256-GCM to detect tampering
-- ✅ **JSON-Driven Workflows** - routines defined declaratively in `routine.json`
-- ✅ **React Dashboard** - real-time task/routine monitoring with a live packet inspector
-- ✅ **CMake + vcpkg** - modern dependency management; fully Dockerized (backend, frontend, relay)
+**Key features**
+- **Async core:** non-blocking task execution via `std::async` / `std::future`
+- **Polymorphic workers:** extend through an abstract `Task` base class
+- **Threat analyzer:** C++ TCP server that parses incoming requests for SQL injection and blocks offending IPs in real time
+- **Security integration:** `BlockIPTask` calls a rate limiter service directly, with requests signed using HMAC-SHA256
+- **Encrypted auditing:** logs encrypted on disk with AES-256-GCM to detect tampering
+- **JSON-driven workflows:** routines defined declaratively in `routine.json`
+- **React dashboard:** real-time task and routine monitoring with a live packet inspector
+- **CMake + vcpkg:** modern dependency management; fully Dockerized (backend, frontend, relay)
 
-**📈 Benchmarked Performance** (300K requests, 64 concurrent workers):
-| Mode | Throughput | Success Rate | Avg Latency | p99 Latency |
+**Benchmarked performance** (300K requests, 64 concurrent workers)
+
+| Mode | Throughput | Success rate | Avg latency | p99 latency |
 |---|---|---|---|---|
 | Steady (sustained) | 1,258 req/s | 100.0% | 50.58 ms | 128.97 ms |
 | Burst (10K waves) | 1,258 req/s | 100.0% | 193.56 ms | 731.01 ms |
-
-**🛠️ Tech Stack:** `C++26` • `React` • `TypeScript` • `Python` • `Node.js` • `OpenSSL` • `Docker`
-
-**💼 Use Cases:** workflow orchestration, intrusion detection & auto-blocking, encrypted audit logging, CI/CD-style automation
 
 ```cpp
 class MyTask : public AutomationEngine::Task {
@@ -136,60 +202,24 @@ public:
 };
 ```
 
----
+**Stack:** `C++` · `CMake` · `vcpkg` · `OpenSSL` · `React` · `TypeScript` · `Python` · `Node.js` · `Docker`
 
-### 3️⃣ [Agent Harness](https://github.com/deepesh-kumar-pandey/Agent-harness) — Go
-
-> **A runtime framework connecting an LLM to external tools via a registry-and-execution-loop architecture**
-
-**🚧 Status: In Progress**
-
-An agent harness is the scaffolding that turns a language model into an autonomous agent: the model supplies the intelligence, the harness supplies the environment, the tool interface, and the execution loop.
-
-**🔑 Implemented So Far:**
-- ✅ **Config Layer** — loads and validates provider config (model, base URL, endpoint) from JSON
-- ✅ **Provider Layer** — Ollama chat provider with request validation, injectable HTTP client, and unit + integration tests
-- ✅ **Tool Interface** — a common `Name() / Description() / Execute()` contract for all tools
-- ✅ **Tool Registry** — `Register`, `Get`, `Has`, `List`, `Remove` for managing available tools
-- ✅ **Agent** — resolves a named tool from the registry and executes it via `Run`
-- ✅ **Concrete Tools** — Calculator (`add`/`subtract`/`multiply`/`divide`/`modulus`), Shell (validated `exec.LookPath` execution with captured output), Filesystem (read/write/list/search/delete)
-
-**🔄 Planned:**
-- ⏳ **Orchestrator** — coordinates workflow decisions and tool selection (separating "what to do" from "how/when")
-- ⏳ **Search Tool** — retrieval across external data sources
-- ⏳ Task planning and full LLM-driven orchestration loop
-
-```go
-type Tool interface {
-    Name() string
-    Description() string
-    Execute(args map[string]any) (any, error)
-}
-```
-
-**🛠️ Tech Stack:** `Go` • `Ollama` • `net/http` • `os/exec`
-
-**💼 Use Cases:** local-LLM tool-calling agents, extensible agent runtimes, testable provider/tool abstractions
+**Use cases:** workflow orchestration, intrusion detection and auto-blocking, encrypted audit logging, CI/CD-style automation
 
 ---
 
-### 4️⃣ [Gatekeeper - Rate Limiting API](https://github.com/deepesh-kumar-pandey/API-project)
+### 4. [Gatekeeper: Rate Limiting API](https://github.com/deepesh-kumar-pandey/API-project) &nbsp;·&nbsp; C++
 
-> **Thread-safe rate limiter for protecting backend services from traffic spikes and API abuse**
+> **A thread-safe rate limiter that protects backend services from traffic spikes and API abuse**
 
-**🔑 Key Features:**
-- ✅ Fixed-window counter algorithm with O(1) lookups
-- ✅ Thread-safe concurrent operations with mutex-based locking
-- ✅ Persistent state management (survives crashes/restarts)
-- ✅ Docker-ready with Alpine Linux base
-- ✅ Zero external dependencies (pure C++ STL)
-
-**🛠️ Tech Stack:** `C++11` • `POSIX Threads` • `Docker` • `Alpine Linux`
-
-**💼 Use Cases:** API protection, brute-force prevention, cost control, fair usage policies
+**Key features**
+- Fixed-window counter algorithm with O(1) lookups
+- Thread-safe concurrent operations with mutex-based locking
+- Persistent state management (survives crashes and restarts)
+- Docker-ready with an Alpine Linux base
+- Zero external dependencies (pure C++ STL)
 
 ```cpp
-// Simple, powerful API
 RateLimiter limiter(100, 60);  // 100 requests per 60 seconds
 if (limiter.is_request_allowed("user123")) {
     // Process request
@@ -198,205 +228,149 @@ if (limiter.is_request_allowed("user123")) {
 }
 ```
 
+**Stack:** `C++11` · `POSIX Threads` · `Docker` · `Alpine Linux`
+
+**Use cases:** API protection, brute-force prevention, cost control, fair-usage policies
+
 ---
 
-### 5️⃣ [DeepGuard - Health Monitoring Service](https://github.com/deepesh-kumar-pandey/Health-Monitoring-Service)
+### 5. [DeepGuard: Health Monitoring Service](https://github.com/deepesh-kumar-pandey/Health-Monitoring-Service) &nbsp;·&nbsp; C++
 
 > **Cross-platform system monitoring with encrypted logging and real-time alerts**
 
-**🔑 Key Features:**
-- ✅ Real-time CPU/RAM monitoring (Windows & Linux)
-- ✅ Disk usage analytics with configurable thresholds
-- ✅ Database connectivity health checks (MySQL/PostgreSQL)
-- ✅ XOR-encrypted log storage
-- ✅ Native system notifications (Windows MessageBox / Linux notify-send)
-- ✅ Thread-safe concurrent operations
-
-**🛠️ Tech Stack:** `C++17` • `CMake` • `Docker` • `WinAPI` • `POSIX`
-
-**💼 Use Cases:** Server monitoring, DevOps automation, infrastructure observability
+**Key features**
+- Real-time CPU and RAM monitoring (Windows and Linux)
+- Disk usage analytics with configurable thresholds
+- Database connectivity health checks (MySQL / PostgreSQL)
+- XOR-encrypted log storage (AES-256-GCM upgrade in progress)
+- Native system notifications (Windows MessageBox / Linux `notify-send`)
+- Thread-safe concurrent operations
 
 ```cpp
 Monitor monitor(80.0, "alerts.log", encryption_key);
-monitor.run_monitoring_cycle(5);  // Check every 5 seconds
+monitor.run_monitoring_cycle(5);  // check every 5 seconds
 ```
 
----
+**Stack:** `C++17` · `CMake` · `Docker` · `WinAPI` · `POSIX`
 
-### 6️⃣ [Interactive To-Do List](https://github.com/deepesh-kumar-pandey/To_do_list)
-
-> **Modern task management application with clean UI and persistent storage**
-
-**🛠️ Tech Stack:** `JavaScript` • `HTML5` • `CSS3` • `Local Storage API`
+**Use cases:** server monitoring, DevOps automation, infrastructure observability
 
 ---
 
-### 7️⃣ [GUI Application](https://github.com/deepesh-kumar-pandey/GUI)
+### 6. Additional Projects
 
-> **Desktop GUI application demonstrating Python interface development**
-
-**🛠️ Tech Stack:** `Python` • `Tkinter/PyQt`
-
----
-
-## 🛠️ Tech Stack
-
-### Languages & Core Technologies
-
-```text
-Go      ████████████████░░░░  80%  (Primary focus: storage engines, agent tooling)
-C++     ████████████████████  95%  (C++11/14/17 systems programming)
-Python  ████████░░░░░░░░░░░░  40%  (GUI applications, scripting)
-JS/TS   ███████░░░░░░░░░░░░░  35%  (Web development)
-Bash    ██████░░░░░░░░░░░░░░  30%  (Shell scripting, automation)
-HCL     ███░░░░░░░░░░░░░░░░░  15%  (Terraform, learning IaC)
-```
-
-### Systems & Storage
-
-<table>
-<tr>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" width="48" height="48" alt="Go" />
-<br>Go
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" width="48" height="48" alt="C++" />
-<br>C++
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" width="48" height="48" alt="C" />
-<br>C
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cmake/cmake-original.svg" width="48" height="48" alt="CMake" />
-<br>CMake
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gcc/gcc-original.svg" width="48" height="48" alt="GCC" />
-<br>GCC
-</td>
-</tr>
-</table>
-
-### DevOps & Infrastructure
-
-<table>
-<tr>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="48" height="48" alt="Docker" />
-<br>Docker
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="48" height="48" alt="Linux" />
-<br>Linux
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg" width="48" height="48" alt="Bash" />
-<br>Bash
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="48" height="48" alt="Git" />
-<br>Git
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" width="48" height="48" alt="Terraform" />
-<br>Terraform
-</td>
-</tr>
-</table>
-
-### Development Tools
-
-- **IDEs:** Visual Studio Code, Visual Studio, CLion, GoLand
-- **Build Systems:** CMake, Make, MinGW, Go Modules
-- **Version Control:** Git, GitHub
-- **Containerization:** Docker, Docker Compose
-- **Operating Systems:** Windows, Linux (Ubuntu/Alpine), macOS
+| Project | Description | Stack |
+|---|---|---|
+| [Interactive To-Do List](https://github.com/deepesh-kumar-pandey/To_do_list) | Task management app with a clean UI and persistent storage | JavaScript, HTML5, CSS3, Local Storage API |
+| [GUI Application](https://github.com/deepesh-kumar-pandey/GUI) | Desktop application demonstrating Python interface development | Python, Tkinter / PyQt |
 
 ---
 
-## 💼 Core Competencies
+## Skills
+
+### Languages
+
+![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
+![C](https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)
+
+### Infrastructure & DevOps
+
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+
+### Build, Data & Frameworks
+
+![CMake](https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white)
+![GCC](https://img.shields.io/badge/GCC-A42E2B?style=for-the-badge&logo=gnu&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Ollama](https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white)
+
+### Development Environment
+
+| Category | Tools |
+|---|---|
+| **IDEs** | Visual Studio Code, Visual Studio, CLion, GoLand |
+| **Build systems** | CMake, Make, MinGW, Go Modules, vcpkg |
+| **Version control** | Git, GitHub |
+| **Containerization** | Docker, Docker Compose |
+| **Operating systems** | Windows, Linux (Ubuntu / Alpine), macOS |
+
+---
+
+## Core Competencies
 
 ### Systems & Storage Engineering
-- **Write-Ahead Logging** - binary framing, fsync durability, crash recovery, compaction
-- **Concurrent Programming** - goroutines/channels in Go; mutex/lock guards in C++
-- **Cross-Platform Development** - Windows, Linux, macOS compatibility
-- **Memory Management** - RAII patterns in C++; careful allocation profiling in Go
-- **Performance Optimization** - algorithm complexity analysis, benchmarking, zero-allocation hot paths
+- **Write-ahead logging:** binary framing, fsync durability, crash recovery, compaction
+- **Atomic persistence:** temp-file-and-rename writes, transactional SQLite stores
+- **Concurrent programming:** goroutines and channels in Go; mutexes and lock guards in C++
+- **Memory management:** RAII patterns in C++; allocation profiling in Go
+- **Performance optimization:** complexity analysis, benchmarking, low-allocation hot paths
+- **Cross-platform development:** Windows, Linux, and macOS compatibility
 
 ### Agent & Tooling Architecture
-- **Tool Interfaces** - uniform `Name()/Description()/Execute()` contracts for extensible tools
-- **Provider Abstractions** - swappable LLM providers with injectable, testable dependencies
-- **Registry Patterns** - centralized tool discovery decoupled from orchestration logic
+- **Tool interfaces:** uniform `Name() / Description() / Execute()` contracts for extensible tools
+- **Orchestration:** separating "what to do" (orchestrator) from "how to do it" (agent and tools)
+- **MCP integration:** client implementation, tool discovery, adapter layer, CLI-managed server config
+- **Provider abstractions:** swappable LLM providers with injectable, testable dependencies
+- **Session management:** persistent conversation state across file and database backends
 
 ### DevOps Practices
-- **Containerization** - Docker multi-stage builds, Alpine optimization, non-root runtime
-- **CI/CD** - build automation, testing pipelines
-- **Monitoring** - health checks, logging, metrics endpoints, alerting
-- **Documentation** - technical writing, architecture docs, API references
+- **Containerization:** multi-stage Docker builds, Alpine optimization, non-root runtime
+- **CI/CD:** GitHub Actions for formatting, test, and vet checks
+- **Monitoring:** health checks, logging, metrics endpoints, alerting
+- **Documentation:** architecture docs, API references, design-decision records
 
 ---
 
-## 🎓 Technical Approach
+## Engineering Approach
 
 ```yaml
 principles:
   code_quality:
     - "Clean, readable, maintainable code"
     - "Comprehensive error handling"
-    - "Extensive documentation"
+    - "Documentation that matches the code"
 
   performance:
-    - "Algorithmic efficiency (O(1) when possible)"
+    - "Algorithmic efficiency (O(1) where possible)"
     - "Minimal memory footprint"
     - "Benchmark before optimizing"
 
   reliability:
-    - "Durable by design (WAL, fsync, crash recovery)"
-    - "Thread/goroutine-safe by design"
+    - "Durable by design (WAL, fsync, atomic writes, crash recovery)"
+    - "Thread- and goroutine-safe by design"
     - "Graceful failure handling"
 
   portability:
     - "Cross-platform compatibility"
-    - "Zero/minimal dependencies"
+    - "Zero or minimal dependencies"
     - "Standards-compliant Go and C++"
 ```
 
 ### What Sets My Projects Apart
 
-1. **Production-Ready** - not demos; built with crash recovery, benchmarks, and Docker deployment in mind
-2. **Well-Documented** - comprehensive READMEs, architecture docs, API references
-3. **Performance-Conscious** - benchmarked throughput/latency, algorithmic analysis
-4. **Security-Minded** - thread safety, encryption, validated inputs
-5. **Cross-Platform** - works on Windows, Linux, Docker out-of-the-box
+1. **Built for failure:** crash recovery, atomic writes, and panic recovery are designed in rather than added later
+2. **Measured:** benchmarked throughput and latency, with tests including race-detector runs
+3. **Secure by default:** thread safety, encryption, signed requests, validated inputs, non-root containers
+4. **Portable:** Docker deployment and cross-platform builds out of the box
+5. **Documented:** architecture, crash-recovery, and design-decision notes for the major projects
 
 ---
 
-## 🌱 Currently Learning
-
-- 🤖 **Agent Orchestration** - building the Orchestrator layer and full LLM-driven execution loop for Agent Harness
-- 🔐 **AES-256-GCM Encryption** - upgrading DeepGuard from XOR to production-grade crypto
-- 📊 **Prometheus Integration** - metrics export for monitoring systems
-- 🧪 **Advanced Testing** - unit tests, benchmarking, performance profiling
-- ☁️ **Terraform** - Infrastructure as Code for automated cloud deployments
-
----
-
-## 🏆 Achievements & Highlights
-
-- 🔧 **9 Public Repositories** - active open-source contributor, now spanning Go, C++, and full-stack projects
-- 🗄️ **Durable Systems** - shipped a WAL-backed cache engine with crash recovery and benchmarked performance
-- 🛡️ **Security-Grade Automation** - built an async C++26 orchestration engine with encrypted auditing, HMAC-signed requests, and a live threat-blocking worker, load-tested to 300K requests
-- 🤖 **Agent Tooling** - building an extensible LLM agent harness from the ground up
-- 🐳 **Docker Expertise** - all major projects containerized
-- 📚 **Comprehensive Documentation** - architecture, crash-recovery, and design-decision docs for every major project
-
----
-
-## 💬 Notable Code Patterns
+## Selected Code Patterns
 
 ### Durable Write-Ahead Logging (Go)
+
 ```go
 // Binary frame: [len:4][ts:8][payload:N], fsync'd before ack
 func (w *WAL) Write(payload []byte) error {
@@ -409,23 +383,17 @@ func (w *WAL) Write(payload []byte) error {
 ```
 
 ### Tool Interface Abstraction (Go)
+
 ```go
 type Tool interface {
     Name() string
     Description() string
     Execute(args map[string]any) (any, error)
 }
-
-func (a *Agent) Run(name string, args map[string]any) (any, error) {
-    tool, err := a.registry.Get(name)
-    if err != nil {
-        return nil, err
-    }
-    return tool.Execute(args)
-}
 ```
 
 ### Thread-Safe Design (C++)
+
 ```cpp
 class RateLimiter {
 private:
@@ -442,79 +410,63 @@ public:
 
 ---
 
-## 🎯 Project Roadmap
+## Currently Working On
 
-### Short-term Goals
-- [ ] Build the Orchestrator layer for Agent Harness (tool selection, workflow coordination)
-- [ ] Add a Search tool to Agent Harness
-- [ ] Implement HTTP REST API for Gatekeeper
+- **Agent Harness:** expanding orchestration, adding tools, and broadening provider support
+- **DeepGuard:** upgrading log encryption from XOR to AES-256-GCM
+- **Observability:** Prometheus-style metrics export across projects
+- **Testing:** unit tests, benchmarking, and performance profiling
+- **Infrastructure as Code:** Terraform for automated cloud deployments
+
+---
+
+## Roadmap
+
+### Short-term
+- [ ] Add further tools and provider integrations to Agent Harness
+- [ ] Implement an HTTP REST API for Gatekeeper
 - [ ] Add AES-256-GCM encryption to DeepGuard
 - [ ] Add Prometheus metrics export across projects
 
-### Medium-term Goals
-- [ ] Full LLM-driven planning/orchestration loop in Agent Harness
-- [ ] Distributed mode for Durable Log Cache Engine (replication / Raft-backed WAL)
-- [ ] Build Kubernetes operator for DeepGuard
-- [ ] Create a web dashboard for monitoring
-- [ ] Deploy infrastructure using Terraform
+### Medium-term
+- [ ] Distributed mode for the Durable Log Cache Engine (replication, Raft-backed WAL)
+- [ ] Kubernetes operator for DeepGuard
+- [ ] Web dashboard for monitoring
+- [ ] Terraform-managed infrastructure deployments
 
-### Long-term Vision
-- [ ] Build a production-grade observability platform
-- [ ] Ship a fully orchestrated, tool-using agent runtime
-- [ ] Contribute to major open-source projects
-- [ ] Create educational content on systems programming
-
----
-
-## 🤝 Let's Collaborate!
-
-I'm always interested in:
-
-- 🔧 **Systems programming projects** (Go, C++, Rust)
-- 🤖 **Agent tooling & LLM infrastructure**
-- 🐳 **DevOps tooling** and infrastructure automation
-- 📊 **Monitoring & observability** solutions
-- 📚 **Open source** contributions
-
-### Looking For
-
-- **Code reviews** on systems programming projects
-- **Collaboration** on infrastructure tools and agent harnesses
-- **Feedback** on architecture decisions
-- **Contributions** to existing projects
+### Long-term
+- [ ] Production-grade observability platform
+- [ ] Fully orchestrated, tool-using agent runtime
+- [ ] Contributions to major open-source projects
+- [ ] Educational content on systems programming
 
 ---
 
-## 📫 Connect With Me
+## Collaboration
+
+I'm interested in:
+
+- Systems programming projects (Go, C++, Rust)
+- Agent tooling and LLM infrastructure
+- DevOps tooling and infrastructure automation
+- Monitoring and observability
+- Open-source contributions
+
+**Looking for:** code reviews on systems projects, feedback on architecture decisions, and collaborators on infrastructure and agent tooling.
+
+---
+
+## Contact
+
+Open to internships and collaboration.
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/deepesh-kumar-pandey)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/deepesh-kumar-pandey-013233288)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/deepesh-kumar-pandey)
+[![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=black)](https://leetcode.com/u/Deepesh_Kumar_Pandey)
+[![HackerRank](https://img.shields.io/badge/HackerRank-2EC866?style=for-the-badge&logo=hackerrank&logoColor=white)](https://hackerrank.com/profile/deepesh040505)
 
-</div>
-
----
-
-## 🌟 Project Philosophy
-
-I build projects that:
-- ✅ Solve real problems
-- ✅ Are production-ready
-- ✅ Have minimal dependencies
-- ✅ Work cross-platform
-- ✅ Include comprehensive docs
-- ✅ Follow best practices
-
----
-
-<div align="center">
-
-### ⭐ If you find my projects useful, consider giving them a star!
-
-### 💻 Open for collaboration and always learning
-
-**Thanks for visiting!** 🚀
-
----
+*If you find these projects useful, a star is always appreciated.*
 
 </div>
