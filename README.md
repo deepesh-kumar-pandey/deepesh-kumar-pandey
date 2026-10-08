@@ -43,7 +43,7 @@ I build backend and infrastructure software with a focus on **correctness under 
 
 ### 1. [Agent Harness](https://github.com/deepesh-kumar-pandey/Agent-harness) &nbsp;·&nbsp; Go
 
-**A runtime for building and running tool-using AI agents.** The model supplies the intelligence; the harness supplies the tools, state, and execution loop. Includes an orchestrator loop, a registry-based tool layer, an MCP client with a CLI, and persistent sessions on file and SQLite backends.
+**A runtime for building and running tool-using AI agents.** The model supplies the intelligence; the harness supplies the tools, state, and execution loop. Includes an orchestrator loop, a registry-based tool layer, an MCP client with a CLI, persistent sessions on file and SQLite backends, and **Jev**, a deterministic policy layer that decides whether each tool action is allowed, needs confirmation, or is denied before it runs.
 
 `Go` · `Ollama` · `MCP` · `SQLite` · `GitHub Actions` &nbsp;|&nbsp; *Status: active development*
 
@@ -55,7 +55,11 @@ I build backend and infrastructure software with a focus on **correctness under 
 ```mermaid
 flowchart TD
     U[User / CLI] --> O[Orchestrator]
-    O -->|tool calls| A[Agent]
+    O -->|proposed tool action| J[Jev Evaluator]
+    J -->|Allow| A[Agent]
+    J -->|Confirm| C[Confirmation required]
+    C -->|approved| A
+    J -->|Deny| X[Action blocked]
     A -->|results| O
     A --> R[Tool Registry]
     R --> B[Built-in tools: calculator, shell, filesystem]
@@ -66,6 +70,8 @@ flowchart TD
 | Capability | Details |
 |---|---|
 | **Orchestrator** | Agent loop that executes each tool call through the Agent and returns results to the model |
+| **Jev (action evaluation)** | Deterministic layer that evaluates each tool action before execution and returns Allow, Confirm, or Deny; integrated into the orchestrator ahead of tool execution |
+| **Jev policies** | `Evaluator` and `Policy` interfaces; a basic policy that validates actions; a shell policy that requires confirmation for shell actions; a default evaluator resolving decisions with `Deny > Confirm > Allow` priority |
 | **Agent** | Resolves tools through the registry; maintains in-memory conversation history |
 | **Tool layer** | Common `Name() / Description() / Execute()` contract and a registry for registering and discovering tools |
 | **Built-in tools** | Calculator, Shell (validated `exec.LookPath` execution with captured output), Filesystem (read/write/list/search/delete) |
@@ -74,7 +80,7 @@ flowchart TD
 | **MCP CLI** | `mcp list`, `mcp add <name> <command> [args...]`, `mcp remove <name>` with persisted config and duplicate-name validation |
 | **Sessions** | Active-session switching; file-backed store with atomic writes (temp file + rename); SQLite-backed store with transactions and foreign-key cascade deletes |
 | **Providers** | Ollama chat provider with request validation and an injectable HTTP client |
-| **Quality** | Unit and integration tests; example config with no credentials; GitHub Actions for formatting, tests, and `go vet` |
+| **Quality** | Unit and integration tests (85.3% overall coverage, 100% on Jev); example config with no credentials; GitHub Actions for formatting, tests, and `go vet` |
 
 ```bash
 agent-harness mcp list
@@ -90,7 +96,7 @@ type Tool interface {
 }
 ```
 
-**Use cases:** local-LLM tool-calling agents, extensible agent runtimes, testable provider and tool abstractions
+**Use cases:** local-LLM tool-calling agents, policy-gated tool execution, extensible agent runtimes, testable provider and tool abstractions
 
 </details>
 
