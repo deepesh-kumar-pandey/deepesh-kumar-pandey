@@ -21,6 +21,9 @@ Computer Science undergraduate (2023–2027) focused on performance, reliability
 
 | | |
 |---|---|
+| **2.93M req/s** | Agent Harness sustained throughput with 391 ns P99 latency across 300K concurrent tool calls |
+| **2.74M req/s burst** | Agent Harness at 20K concurrent burst load: 621 ns P99 latency, 0 errors |
+| **Race-detector validated** | No data races across sustained and burst workloads |
 | **~5.4M ops/s** | LRU cache hit throughput (183 ns) in a Go log engine with an fsync-backed WAL |
 | **300K requests** | Load-tested C++ automation engine: 100% success, 1,258 req/s, p99 under 130 ms in steady mode |
 | **MCP + sessions** | Go agent runtime with an orchestrator loop, MCP client, CLI, and SQLite-backed session storage |
